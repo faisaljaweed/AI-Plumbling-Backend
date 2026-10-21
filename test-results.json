@@ -1,0 +1,18 @@
+{
+  "testedAt": "2026-10-21T12:34:32.856Z",
+  "passed": [
+    "All admin API endpoints reject unauthenticated access",
+    "Backend enquiry validation",
+    "Customer sessions reject missing and cross-lead tokens",
+    "Concurrent chat start is idempotent and qualification persists for refresh",
+    "Guided chat captures date/time without falsely confirming",
+    "Fallback saves supplied contact details instead of asking repeatedly",
+    "Past availability is rejected",
+    "Concurrent booking race allows exactly one customer",
+    "Customer availability excludes booked and past slots",
+    "Refresh restores confirmed booking and correct calendar date",
+    "Confirmed appointment uses US date/time and business timezone",
+    "Analytics reflect enquiry and confirmed booking"
+  ],
+  "realEmailDelivered": false
+}

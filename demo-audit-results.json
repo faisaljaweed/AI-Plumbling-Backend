@@ -1,0 +1,369 @@
+{
+  "testedAt": "2026-10-21T11:20:25.130Z",
+  "tests": [
+    {
+      "name": "API health",
+      "status": 200,
+      "ms": 103,
+      "body": {
+        "success": true,
+        "message": "AI Lead & Booking Assistant API is running"
+      }
+    },
+    {
+      "name": "Analytics before",
+      "status": 200,
+      "ms": 69,
+      "body": {
+        "success": true,
+        "data": {
+          "totalLeads": 21,
+          "qualifiedLeads": 6,
+          "bookings": 5,
+          "conversionRate": 23.81,
+          "pendingFollowups": 1
+        }
+      }
+    },
+    {
+      "name": "Create sample enquiry",
+      "status": 201,
+      "ms": 43,
+      "body": {
+        "success": true,
+        "message": "Lead created successfully",
+        "data": {
+          "id": 22,
+          "business_id": 1,
+          "customer_name": "Demo QA Customer",
+          "email": "demo-qa@example.com",
+          "phone": "+1 214 555 0187",
+          "zip_code": "75201",
+          "service_type": null,
+          "issue_description": "Kitchen sink drain is leaking underneath the cabinet. Small drip, water is contained, no flooding.",
+          "urgency": "normal",
+          "status": "new",
+          "preferred_date": null,
+          "preferred_time": null,
+          "created_at": "2026-10-21T11:20:25.335Z",
+          "updated_at": "2026-10-21T11:20:25.335Z"
+        }
+      }
+    },
+    {
+      "name": "Start chat with existing form details",
+      "status": 200,
+      "ms": 1702,
+      "body": {
+        "success": true,
+        "already_started": false,
+        "data": {
+          "reply": "What date and time would work best for a plumber to visit?",
+          "qualified": false,
+          "next_action": "continue_chat",
+          "lead_data": {
+            "preferred_date": null,
+            "preferred_time": null
+          }
+        }
+      }
+    },
+    {
+      "name": "Supply visit preference",
+      "status": 200,
+      "ms": 306,
+      "body": {
+        "success": true,
+        "data": {
+          "reply": "What date and time would work best for a plumber to visit?",
+          "qualified": false,
+          "next_action": "continue_chat",
+          "lead_data": {
+            "preferred_date": null,
+            "preferred_time": "01:17 PM"
+          }
+        }
+      }
+    },
+    {
+      "name": "Lead after qualification",
+      "status": 200,
+      "ms": 3,
+      "body": {
+        "success": true,
+        "data": {
+          "id": 22,
+          "business_id": 1,
+          "customer_name": "Demo QA Customer",
+          "email": "demo-qa@example.com",
+          "phone": "+1 214 555 0187",
+          "zip_code": "75201",
+          "service_type": null,
+          "issue_description": "Kitchen sink drain is leaking underneath the cabinet. Small drip, water is contained, no flooding.",
+          "urgency": "normal",
+          "status": "new",
+          "preferred_date": null,
+          "preferred_time": "01:17 PM",
+          "created_at": "2026-10-21T11:20:25.335Z",
+          "updated_at": "2026-10-21T11:20:27.355Z"
+        }
+      }
+    },
+    {
+      "name": "Availability summary",
+      "status": 200,
+      "total": 6,
+      "bookedIncluded": 3,
+      "pastIncluded": 6
+    },
+    {
+      "name": "Create dedicated sample slot",
+      "status": 201,
+      "ms": 6,
+      "body": {
+        "success": true,
+        "message": "Availability slot created successfully",
+        "data": {
+          "id": 8,
+          "business_id": 1,
+          "slot_date": "2026-11-03T19:00:00.000Z",
+          "slot_time": "13:39:00",
+          "is_available": true,
+          "created_at": "2026-10-21T11:20:27.377Z"
+        }
+      }
+    },
+    {
+      "name": "Book available slot",
+      "status": 201,
+      "ms": 8,
+      "body": {
+        "success": true,
+        "message": "Booking created successfully",
+        "data": {
+          "id": 6,
+          "business_id": 1,
+          "lead_id": 22,
+          "availability_slot_id": 8,
+          "booking_date": "2026-11-03T19:00:00.000Z",
+          "booking_time": "13:39:00",
+          "status": "confirmed",
+          "notes": "Automated demo QA sample; no customer notification.",
+          "created_at": "2026-10-21T11:20:27.382Z",
+          "updated_at": "2026-10-21T11:20:27.382Z"
+        }
+      }
+    },
+    {
+      "name": "Reject booking same slot twice",
+      "status": 400,
+      "ms": 3,
+      "body": {
+        "success": false,
+        "message": "This slot is already booked"
+      }
+    },
+    {
+      "name": "Chat after confirmed booking",
+      "status": 200,
+      "ms": 513,
+      "body": {
+        "success": true,
+        "data": {
+          "reply": "Your appointment is confirmed for Wed Nov 04 2026 00:00:00 GMT+0500 (Pakistan Standard Time) at 13:39:00.",
+          "qualified": true,
+          "next_action": "booking_confirmed",
+          "lead_data": {}
+        }
+      }
+    },
+    {
+      "name": "Persisted chat history",
+      "status": 200,
+      "ms": 3,
+      "body": {
+        "success": true,
+        "count": 5,
+        "data": [
+          {
+            "id": 51,
+            "lead_id": 22,
+            "role": "assistant",
+            "content": "What date and time would work best for a plumber to visit?",
+            "created_at": "2026-10-21T11:20:27.052Z"
+          },
+          {
+            "id": 52,
+            "lead_id": 22,
+            "role": "user",
+            "content": "November 4, 2026 at 1:17 PM works. It is a small sink drain leak, not an emergency. Please show available slots; do not confirm until I select one.",
+            "created_at": "2026-10-21T11:20:27.059Z"
+          },
+          {
+            "id": 53,
+            "lead_id": 22,
+            "role": "assistant",
+            "content": "What date and time would work best for a plumber to visit?",
+            "created_at": "2026-10-21T11:20:27.354Z"
+          },
+          {
+            "id": 54,
+            "lead_id": 22,
+            "role": "user",
+            "content": "Is my appointment confirmed? Please state the actual date and time.",
+            "created_at": "2026-10-21T11:20:27.392Z"
+          },
+          {
+            "id": 55,
+            "lead_id": 22,
+            "role": "assistant",
+            "content": "Your appointment is confirmed for Wed Nov 04 2026 00:00:00 GMT+0500 (Pakistan Standard Time) at 13:39:00.",
+            "created_at": "2026-10-21T11:20:27.899Z"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Create scheduled follow-up record only",
+      "status": 201,
+      "ms": 5,
+      "body": {
+        "success": true,
+        "message": "Follow-up created successfully",
+        "data": {
+          "id": 3,
+          "business_id": 1,
+          "lead_id": 22,
+          "message": "Demo QA follow-up. No real email recipient.",
+          "channel": "email",
+          "status": "scheduled",
+          "scheduled_at": "2026-11-03T10:00:00.000Z",
+          "sent_at": null,
+          "created_at": "2026-10-21T11:20:27.909Z"
+        }
+      }
+    },
+    {
+      "name": "Lead status after follow-up",
+      "status": 200,
+      "ms": 2,
+      "body": {
+        "success": true,
+        "data": {
+          "id": 22,
+          "business_id": 1,
+          "customer_name": "Demo QA Customer",
+          "email": "demo-qa@example.com",
+          "phone": "+1 214 555 0187",
+          "zip_code": "75201",
+          "service_type": null,
+          "issue_description": "Kitchen sink drain is leaking underneath the cabinet. Small drip, water is contained, no flooding.",
+          "urgency": "normal",
+          "status": "follow-up",
+          "preferred_date": null,
+          "preferred_time": "01:17 PM",
+          "created_at": "2026-10-21T11:20:25.335Z",
+          "updated_at": "2026-10-21T11:20:27.910Z"
+        }
+      }
+    },
+    {
+      "name": "Analytics after",
+      "status": 200,
+      "ms": 3,
+      "body": {
+        "success": true,
+        "data": {
+          "totalLeads": 22,
+          "qualifiedLeads": 6,
+          "bookings": 6,
+          "conversionRate": 27.27,
+          "pendingFollowups": 2
+        }
+      }
+    },
+    {
+      "name": "Missing contact sample",
+      "status": 201,
+      "ms": 3,
+      "body": {
+        "success": true,
+        "message": "Lead created successfully",
+        "data": {
+          "id": 23,
+          "business_id": 1,
+          "customer_name": "Demo QA Missing Contact",
+          "email": null,
+          "phone": null,
+          "zip_code": null,
+          "service_type": null,
+          "issue_description": "My sink has a slow leak.",
+          "urgency": "normal",
+          "status": "new",
+          "preferred_date": null,
+          "preferred_time": null,
+          "created_at": "2026-10-21T11:20:27.919Z",
+          "updated_at": "2026-10-21T11:20:27.919Z"
+        }
+      }
+    },
+    {
+      "name": "Ask for missing contact",
+      "status": 200,
+      "ms": 332,
+      "body": {
+        "success": true,
+        "already_started": false,
+        "data": {
+          "reply": "What is the best phone number to reach you at?",
+          "qualified": false,
+          "next_action": "continue_chat",
+          "lead_data": {}
+        }
+      }
+    },
+    {
+      "name": "Provide missing contact",
+      "status": 200,
+      "ms": 548,
+      "body": {
+        "success": true,
+        "data": {
+          "reply": "What is the best phone number to reach you at?",
+          "qualified": false,
+          "next_action": "continue_chat",
+          "lead_data": {}
+        }
+      }
+    },
+    {
+      "name": "Verify contact saved",
+      "status": 200,
+      "ms": 2,
+      "body": {
+        "success": true,
+        "data": {
+          "id": 23,
+          "business_id": 1,
+          "customer_name": "Demo QA Missing Contact",
+          "email": null,
+          "phone": null,
+          "zip_code": null,
+          "service_type": null,
+          "issue_description": "My sink has a slow leak.",
+          "urgency": "normal",
+          "status": "new",
+          "preferred_date": null,
+          "preferred_time": null,
+          "created_at": "2026-10-21T11:20:27.919Z",
+          "updated_at": "2026-10-21T11:20:28.800Z"
+        }
+      }
+    },
+    {
+      "name": "Direct AI provider",
+      "success": false,
+      "error": "{\"error\":{\"code\":429,\"message\":\"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.8-flash\\nPlease retry in 19h39m30.570815982s.\",\"status\":\"RESOURCE_EXHAUSTED\",\"details\":[{\"@type\":\"type.googleapis.com/google.rpc.Help\",\"links\":[{\"description\":\"Learn more about Gemini API quotas\",\"url\":\"https://ai.google.dev/gemini-api/docs/rate-limits\"}]},{\"@type\":\"type.googleapis.com/google.rpc.QuotaFailure\",\"violations\":[{\"quotaMetric\":\"generativelanguage.googleapis.com/generate_content_free_tier_requests\",\"quotaId\":\"GenerateRequestsPerDayPerProjectPerModel-FreeTier\",\"quotaDimensions\":{\"model\":\"gemini-3.8-flash\",\"location\":\"global\"},\"quotaValue\":\"20\"}]},{\"@type\":\"type.googleapis.com/google.rpc.RetryInfo\",\"retryDelay\":\"70770s\"}]}}"
+    }
+  ]
+}
